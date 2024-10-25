@@ -61,6 +61,7 @@ class _MyAppState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var child;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -265,7 +266,24 @@ class _MyAppState extends State<HomeScreen> {
                   // Thêm các nút khác tương tự
                 ],
               ),
-
+              // hai hình baner
+              const SizedBox(height: 16),
+              SizedBox(
+                width: 358,
+                height:
+                    256, // Điều chỉnh kích thước theo nhu cầu (tổng chiều cao của 2 ảnh)
+                child: Column(
+                  children: [
+                    Image.asset(
+                      'images/hinh_duoibt1.png',
+                    ),
+                    const SizedBox(height: 16),
+                    Image.asset(
+                      'images/hinh_duoibt2.png',
+                    ),
+                  ],
+                ),
+              )
               // Các thành phần khác của body
             ],
           ),
@@ -286,7 +304,7 @@ class _MyAppState extends State<HomeScreen> {
         padding: const EdgeInsets.all(8), // Thêm padding nếu cần
         decoration: BoxDecoration(
           color:
-              Color.fromRGBO(255, 255, 255, 1), // Màu background các nut button
+              Color.fromRGBO(255, 254, 254, 1), // Màu background các nut button
           borderRadius: BorderRadius.circular(8),
         ),
         child: Column(
