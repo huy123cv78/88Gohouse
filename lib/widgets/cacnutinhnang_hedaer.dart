@@ -1,43 +1,78 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'
+    show
+        AppBar,
+        BuildContext,
+        Column,
+        EdgeInsets,
+        GestureDetector,
+        GridView,
+        Image,
+        Key,
+        MainAxisAlignment,
+        Navigator,
+        Scaffold,
+        SizedBox,
+        State,
+        StatefulWidget,
+        Text,
+        VoidCallback,
+        Widget;
 
-class CategoryButton extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final VoidCallback onTap;
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key}) : super(key: key);
 
-  const CategoryButton({
-    Key? key,
-    required this.icon,
-    required this.label,
-    required this.onTap,
-  }) : super(key: key);
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
 
+class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Category Buttons'),
+        title: const Text("GridView Example"),
       ),
       body: GridView.count(
-        crossAxisCount: 4,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
+        crossAxisCount: 4, // 4 cột
+        padding: const EdgeInsets.all(16),
+        mainAxisSpacing: 16,
+        crossAxisSpacing: 16,
         children: [
-          CategoryButton(
-            icon: Icons.home,
-            label: "租屋",
+          _buildGridItem(
+            imagePath: 'images/button1.png', // Thay bằng đường dẫn ảnh của bạn
+            label: '租屋',
             onTap: () {
-              // Xử lý khi nhấn vào nút "租屋"
+              // Chuyển đến màn hình tương ứng (ví dụ: '/rent')
+              Navigator.pushNamed(context, '/rent');
             },
           ),
-          CategoryButton(
-            icon: Icons.home,
-            label: "購屋",
+          _buildGridItem(
+            imagePath: 'images/button2.png', // Thay bằng đường dẫn ảnh của bạn
+            label: '購屋',
             onTap: () {
-              // Xử lý khi nhấn vào nút "購屋"
+              // Chuyển đến màn hình tương ứng (ví dụ: '/buy')
+              Navigator.pushNamed(context, '/buy');
             },
           ),
-          // ... thêm các nút khác
+          // Thêm các nút khác tương tự
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGridItem({
+    required String imagePath,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(imagePath, height: 50), // Điều chỉnh kích thước hình ảnh
+          const SizedBox(height: 8),
+          Text(label),
         ],
       ),
     );
