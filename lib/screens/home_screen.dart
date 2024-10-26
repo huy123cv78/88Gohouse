@@ -61,7 +61,6 @@ class _MyAppState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var child;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -283,7 +282,38 @@ class _MyAppState extends State<HomeScreen> {
                     ),
                   ],
                 ),
-              )
+              ),
+              // phần tiêu đề 精選影音 va
+              const SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 35),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '精選影音',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        // Xử lý điều hướng đến màn hình khác ở đây
+                        // Ví dụ: Navigator.pushNamed(context, '/video');
+                      },
+                      child: Text(
+                        '查看更多',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: const Color.fromARGB(255, 173, 169, 169),
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               // Các thành phần khác của body
             ],
           ),
