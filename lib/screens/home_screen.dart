@@ -1,5 +1,8 @@
 import 'dart:async';
 import '../widgets/silde-show.dart';
+import '../widgets/button_home.dart';
+import '../screens/button_navgtionbar.dart';
+import '../widgets/button_head.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const HomeScreen());
@@ -36,12 +39,6 @@ class _MyAppState extends State<HomeScreen> {
     _startTimer();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    _timer?.cancel();
-  }
-
   void _startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
       if (_pageController.page == imagePaths.length - 1) {
@@ -59,18 +56,46 @@ class _MyAppState extends State<HomeScreen> {
     });
   }
 
+  final ScrollController _scrollController = ScrollController();
+  @override
+  void dispose2() {
+    _timer?.cancel();
+    _scrollController.dispose(); // Giải phóng ScrollController
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     var child;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            // Cuộn lên đầu trang
+            _scrollController.animateTo(
+              0,
+              duration: Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            );
+          },
+          child: Image.asset(
+            'images/button_head.png',
+            color: Colors.white,
+          ),
+          backgroundColor: Color(0xFFFF781D),
+          shape: RoundedRectangleBorder(
+            // Thêm thuộc tính shape
+            borderRadius: BorderRadius.circular(60.0),
+          ),
+          mini: false,
+        ),
         appBar: AppBar(
           backgroundColor: Colors.white,
           leading: Builder(
             builder: (BuildContext context) {
               return IconButton(
-                icon: const Icon(Icons.menu, color: Colors.black),
+                icon: const Icon(Icons.menu, color: Colors.grey),
                 onPressed: () {
                   Scaffold.of(context).openDrawer();
                 },
@@ -78,21 +103,29 @@ class _MyAppState extends State<HomeScreen> {
             },
           ),
           flexibleSpace: Center(
-            child: Image.asset(
-              'images/logo-icon.png',
-              height: 40,
+            child: SizedBox(
+              height: kToolbarHeight, // Chiều cao của AppBar
+              child: Align(
+                alignment: Alignment.center, // Căn giữa theo chiều dọc
+                child: Image.asset(
+                  'images/logo-icon.png',
+                  height: 40,
+                ),
+              ),
             ),
           ),
           actions: [
             IconButton(
-              icon: const Icon(Icons.notifications, color: Colors.black),
+              icon: const Icon(Icons.email, color: Colors.grey),
               onPressed: () {
                 // Xử lý khi nhấn vào icon thông báo
               },
             ),
           ],
         ),
+        bottomNavigationBar: const CustomNavigationBar(),
         body: SingleChildScrollView(
+          controller: _scrollController,
           // Sử dụng SingleChildScrollView
           child: Column(
             children: [
@@ -315,7 +348,58 @@ class _MyAppState extends State<HomeScreen> {
                 ),
               ),
               const SizedBox(height: 16),
-              const FeaturedSlideShow(), // Các thành phần khác của body
+              FeaturedSlideShow(),
+              NewsSlideShow(),
+              // Các thành phần khác của body
+              Container(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      '了解88go',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      '我们是一个提供全方位居住解决方案的平台，'
+                      '无论你的居住需求如何，88go都将成为你可靠的伙伴。'
+                      '我们期待在这个居住的旅程中，为你提供最优质的服务。'
+                      '与你携手实现居住的新未来。',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    _buildItem(
+                      imagePath: 'images/img1.png',
+                      title: '多房源',
+                      content: '擁有众多优质的房源，涵盖各种需求和预算',
+                    ),
+                    const SizedBox(height: 20),
+                    _buildItem(
+                      imagePath: 'images/img2.png',
+                      title: '免仲介费',
+                      content: '不再让繁琐的仲介费用成为你选屋的障碍',
+                    ),
+                    const SizedBox(height: 20),
+                    _buildItem(
+                      imagePath: 'images/img3.png',
+                      title: '交易方便',
+                      content: '透明的购买流程，轻松愉快的租售房屋',
+                    ),
+                  ],
+                ),
+              ),
+              SocialButtons(),
+              PartnerSlideShow(),
             ],
           ),
         ),
@@ -353,6 +437,41 @@ class _MyAppState extends State<HomeScreen> {
       ),
     );
   }
+}
+
+Widget _buildItem({
+  required String imagePath,
+  required String title,
+  required String content,
+}) {
+  return Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Image.asset(
+        imagePath,
+        width: 115,
+        height: 115,
+      ),
+      const SizedBox(width: 16),
+      Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(
+                color: Colors.orange,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(content),
+          ],
+        ),
+      ),
+    ],
+  );
 }
 
 class ImagePlaceholder extends StatelessWidget {
