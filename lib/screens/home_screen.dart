@@ -2,7 +2,6 @@ import 'dart:async';
 import '../widgets/silde-show.dart';
 import '../widgets/button_home.dart';
 import '../screens/button_navgtionbar.dart';
-import '../widgets/button_head.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const HomeScreen());
@@ -57,7 +56,6 @@ class _MyAppState extends State<HomeScreen> {
   }
 
   final ScrollController _scrollController = ScrollController();
-  @override
   void dispose2() {
     _timer?.cancel();
     _scrollController.dispose(); // Giải phóng ScrollController
@@ -66,7 +64,6 @@ class _MyAppState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var child;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
