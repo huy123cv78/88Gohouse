@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -9,6 +11,30 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _obscureText = true;
+  List _countryCodes = []; // Danh sách mã quốc gia
+  String _selectedPhoneCode = '+84_VN'; // Mã quốc gia mặc định
+  final _phoneController =
+      TextEditingController(); // Controller cho ô nhập số điện thoại
+  bool _isPhoneValid = true; // Trạng thái hợp lệ của số điện thoại
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCountryCodes(); // Gọi hàm đọc dữ liệu khi khởi tạo widget
+  }
+
+  Future<void> _loadCountryCodes() async {
+    final String response =
+        await rootBundle.loadString('assets/countryCode.json');
+    final List<dynamic> data = json.decode(response);
+
+    final uniqueCountryCodes =
+        data.toSet().toList(); // Loại bỏ mã quốc gia trùng lặp
+
+    setState(() {
+      _countryCodes = uniqueCountryCodes;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
             padding: const EdgeInsets.only(left: 16.0),
             icon: const Icon(Icons.arrow_back_ios, color: Colors.grey),
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.pop(context); // Quay lại trang trước
             },
           ),
           centerTitle: true,
@@ -45,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               const SizedBox(height: 24),
 
-              // Hình ảnh login
+              // Hình ảnh đăng nhập
               Container(
                 width: 400,
                 height: 270,
@@ -63,14 +89,17 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(height: 16),
 
               // Tiêu đề "Welcome"
-              const Text(
-                'Welcome',
-                style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+              Padding(
+                padding: const EdgeInsets.only(left: 1), // Thêm padding left
+                child: const Align(
+                  alignment: Alignment.centerLeft, // Căn lề trái
+                  child: Text(
+                    'Welcome',
+                    style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+                  ),
+                ),
               ),
-              const SizedBox(height: 24),
-
-              // Số điện thoại với tiêu đề 手機號碼 *
-              // Số điện thoại với tiêu đề 手機號碼 *
+              // Khung nhập số điện thoại với tiêu đề 手機號碼 *
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -81,42 +110,73 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 8),
                   Row(
                     children: [
-                      // Khung chứa mã quốc gia
+                      // Dropdown mã quốc gia
                       Container(
-                        height: 48, // Đặt chiều cao cố định
+                        height: 48,
                         padding: const EdgeInsets.symmetric(horizontal: 12),
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: DropdownButton<String>(
-                          value: '+84', // Đặt mã quốc gia mặc định
-                          items: <String>['+84', '+1', '+44', '+61']
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
+                        child: InkWell(
+                          onTap: () {
+                            showModalBottomSheet(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return SizedBox(
+                                  height:
+                                      300, // Giới hạn chiều cao của danh sách
+                                  child: ListView.builder(
+                                    itemCount: _countryCodes.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      String phoneCode =
+                                          _countryCodes[index]['phoneCode'];
+                                      String countryCode =
+                                          _countryCodes[index]['countryCode'];
+                                      return ListTile(
+                                        title: Text(phoneCode),
+                                        onTap: () {
+                                          setState(() {
+                                            _selectedPhoneCode =
+                                                '$phoneCode$countryCode';
+                                          });
+                                          Navigator.pop(
+                                              context); // Đóng danh sách sau khi chọn
+                                        },
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
                             );
-                          }).toList(),
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              // Cập nhật mã quốc gia mới nếu cần
-                            });
                           },
-                          underline: Container(),
+                          child: Row(
+                            children: [
+                              Text(_selectedPhoneCode.split(
+                                  '_')[0]), // Hiển thị mã quốc gia đã chọn
+                              const Icon(Icons.arrow_drop_down),
+                            ],
+                          ),
                         ),
                       ),
-                      const SizedBox(width: 8),
-
+                      const SizedBox(
+                          width:
+                              8), // Thêm khoảng cách 8px giữa mã quốc gia và ô nhập số điện thoại
                       // Khung nhập số điện thoại
                       Expanded(
                         child: Container(
-                          height: 48, // Đặt chiều cao cố định
+                          height: 48,
                           decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey),
+                            border: Border.all(
+                                color: _isPhoneValid
+                                    ? Colors.grey
+                                    : Colors
+                                        .red), // Đổi màu khung khi không hợp lệ
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: TextFormField(
+                            controller: _phoneController,
                             decoration: const InputDecoration(
                               contentPadding:
                                   EdgeInsets.symmetric(horizontal: 12),
@@ -124,6 +184,16 @@ class _LoginScreenState extends State<LoginScreen> {
                               hintText: '手機號碼',
                             ),
                             keyboardType: TextInputType.phone,
+                            inputFormatters: [
+                              FilteringTextInputFormatter
+                                  .digitsOnly // Chỉ cho phép nhập số
+                            ],
+                            onChanged: (value) {
+                              setState(() {
+                                _isPhoneValid = RegExp(r'^\d+$')
+                                    .hasMatch(value); // Kiểm tra nếu chỉ có số
+                              });
+                            },
                           ),
                         ),
                       ),
@@ -133,7 +203,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 20),
 
-// Khung mật khẩu với tiêu đề "密碼 *"
+              // Khung mật khẩu với tiêu đề "密碼 *"
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -152,8 +222,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       obscureText: _obscureText,
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.symmetric(
-                          vertical:
-                              14, // Căn giữa nội dung theo chiều cao của khung
+                          vertical: 14,
                           horizontal: 12,
                         ),
                         border: InputBorder.none,
@@ -199,7 +268,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () {
                       // Xử lý khi nhấn "Quên mật khẩu"
                     },
-                    child: const Text('忘記密碼'),
+                    child: const Text(
+                      '忘記密碼',
+                      style: TextStyle(
+                        decoration: TextDecoration.underline, // Thêm gạch chân
+                        color: Colors.grey, // Đổi màu chữ
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -209,13 +284,11 @@ class _LoginScreenState extends State<LoginScreen> {
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange,
-                  minimumSize:
-                      const Size(300, 50), // Chiều rộng và chiều cao của nút
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 16, horizontal: 32), // Căn chỉnh padding
+                  minimumSize: const Size(300, 50),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
                   shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(6), // Bo góc nút đăng nhập
+                    borderRadius: BorderRadius.circular(6),
                   ),
                 ),
                 onPressed: () {
@@ -229,7 +302,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 10),
 
               // Liên kết đến màn hình đăng ký
@@ -237,59 +309,61 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text('還沒有帳號嗎？'),
-                  // Giảm khoảng cách giữa "還沒有帳號嗎？" và "Đăng ký"
                   TextButton(
                     onPressed: () {
                       // Xử lý khi nhấn "Đăng ký"
                     },
-                    child: const Text('Đăng ký'),
+                    child: const Text(
+                      '註冊',
+                      style: TextStyle(
+                        decoration: TextDecoration.underline, // Thêm gạch chân
+                        color: Colors.grey,
+                      ),
+                    ),
+                    style: TextButton.styleFrom(
+                      padding:
+                          EdgeInsets.zero, // Bỏ padding mặc định của TextButton
+                      minimumSize:
+                          Size.zero, // Bỏ minimumSize mặc định của TextButton
+                      tapTargetSize: MaterialTapTargetSize
+                          .shrinkWrap, // Giảm kích thước tap target
+                    ),
                   ),
                 ],
               ),
               const Divider(
-                color: Colors.grey, // Màu của đường thẳng
-                thickness: 0.5, // Độ dày của đường thẳng
-                indent: 16, // Khoảng cách từ bên trái
-                endIndent: 16, // Khoảng cách từ bên phải
+                color: Colors.grey,
+                thickness: 0.5,
+                indent: 16,
+                endIndent: 16,
               ),
 
-              const SizedBox(height: 1), // Giảm khoảng cách với đường thẳng
-              // Đăng nhập bằng mạng xã hội
+              const SizedBox(height: 1),
               Padding(
-                padding: const EdgeInsets.only(left: 16), // Căn lề trái 16px
+                padding: const EdgeInsets.only(left: 16),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const Text('以社群帳號登入'),
-                    const SizedBox(
-                        width: 8), // Giảm khoảng cách giữa văn bản và nút
-
-                    // Nút Google với viền
+                    const SizedBox(width: 8),
                     IconButton(
-                      iconSize: 20, // Kích thước của icon
+                      iconSize: 20,
                       icon: const Icon(Icons.g_mobiledata, color: Colors.grey),
                       onPressed: () {
                         // Xử lý khi nhấn nút Google
                       },
-                      // Áp dụng viền cho icon
                       style: IconButton.styleFrom(
-                        side: const BorderSide(
-                            color: Colors.grey,
-                            width: 0.5), // Màu và độ dày của viền
+                        side: const BorderSide(color: Colors.grey, width: 0.5),
                         shape: const CircleBorder(),
                       ),
                     ),
-
-                    const SizedBox(width: 2), // Khoảng cách giữa các nút
-
-                    // Nút Facebook với viền
+                    const SizedBox(width: 2),
                     IconButton(
-                      iconSize: 20, // Kích thước của icon
+                      iconSize: 20,
                       icon: const Icon(Icons.facebook, color: Colors.grey),
                       onPressed: () {
                         // Xử lý khi nhấn nút Facebook
                       },
-                      // Áp dụng viền cho icon
                       style: IconButton.styleFrom(
                         side: const BorderSide(
                             color: Colors.grey,
