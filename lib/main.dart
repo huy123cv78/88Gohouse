@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/screens/choose_identity.dart';
 import 'package:flutter_application_1/screens/home_screen.dart';
 import 'package:flutter_application_1/screens/login_screen.dart';
 import 'package:flutter_application_1/screens/maintenance_screen.dart';
+import 'package:flutter_application_1/screens/register.dart';
 
 void main() => runApp(const MyApp());
 
@@ -15,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: Color.fromARGB(255, 255, 255, 255),
       ),
-      home: MaintenanceScreen(),
+      home: RegisterPage(),
     );
   }
 }

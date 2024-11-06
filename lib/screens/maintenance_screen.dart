@@ -6,13 +6,21 @@ class MaintenanceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('維護更新'),
-        centerTitle: true,
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1.0),
-          child: Container(
-            color: Colors.black,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(kToolbarHeight),
+        // Chiều cao mặc định của AppBar
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                color: Colors.grey,
+                width: 1.0,
+              ),
+            ),
+          ),
+          child: AppBar(
+            title: const Text('維護更新'),
+            centerTitle: true,
           ),
         ),
       ),
@@ -32,9 +40,10 @@ class MaintenanceScreen extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    'System Maintenance',
+                    'System\nMaintenance',
+                    textAlign: TextAlign.center, // Căn giữa dòng text
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 40,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
@@ -43,11 +52,21 @@ class MaintenanceScreen extends StatelessWidget {
                   Text(
                     '本網站將於 2023/11/29 00:00~01:00 進行系統維護作業',
                     textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 18, // Thay đổi kích thước chữ ở đây
+                      color: const Color.fromARGB(
+                          255, 96, 95, 95), // Thay đổi màu chữ ở đây
+                    ),
                   ),
                   SizedBox(height: 5),
                   Text(
                     '為您帶來不便，敬請見諒！',
                     textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 18, // Thay đổi kích thước chữ ở đây
+                      color: const Color.fromARGB(
+                          255, 96, 95, 95), // Thay đổi màu chữ ở đây
+                    ),
                   ),
                 ],
               ),
