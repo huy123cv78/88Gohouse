@@ -297,49 +297,90 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               const SizedBox(height: 16),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Checkbox(
-                    value: _agreedToTerms,
-                    onChanged: (value) {
-                      setState(() {
-                        _agreedToTerms = value!;
-                      });
-                    },
+                  Transform.translate(
+                    offset: const Offset(
+                        -10, 0), // Điều chỉnh giá trị này để căn trái hơn
+                    child: Checkbox(
+                      value: _agreedToTerms,
+                      onChanged: (value) {
+                        setState(() {
+                          _agreedToTerms = value!;
+                        });
+                      },
+                    ),
                   ),
-                  const Expanded(
-                    child: Text(
-                      '我已閱讀並了解會員條款與隱私權聲明與免責聲明等所載內容以及其意義,茲同意該等條款規定,並願遵守網站現金、嗣後規範的各種規則',
-                      style: TextStyle(fontSize: 14),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Text.rich(
+                        TextSpan(
+                          children: [
+                            const TextSpan(
+                              text: '我已閱讀並了解',
+                              style: TextStyle(fontSize: 14),
+                            ),
+                            TextSpan(
+                              text: '會員條款與隱私權聲明',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey, // Màu xanh
+                                decoration:
+                                    TextDecoration.underline, // Gạch chân
+                              ),
+                            ),
+                            const TextSpan(
+                              text: '與',
+                              style: TextStyle(fontSize: 14),
+                            ),
+                            TextSpan(
+                              text: '免責聲明',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey, // Màu xanh
+                                decoration:
+                                    TextDecoration.underline, // Gạch chân
+                              ),
+                            ),
+                            const TextSpan(
+                              text: '等所載內容以及其意義，茲同意該等條款規定，並願遵守網站現金、嗣後規範的各種規則',
+                              style: TextStyle(fontSize: 14),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ],
               ),
               const SizedBox(height: 32),
               SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 255, 123, 0),
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      textStyle: const TextStyle(fontSize: 18),
-                      shape: RoundedRectangleBorder(
-                        // Thêm thuộc tính shape
-                        borderRadius: BorderRadius.circular(
-                            6), // Điều chỉnh độ bo góc ở đây
-                      ),
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 255, 123, 0),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    textStyle: const TextStyle(fontSize: 18),
+                    shape: RoundedRectangleBorder(
+                      // Thêm thuộc tính shape
+                      borderRadius: BorderRadius.circular(
+                          6), // Điều chỉnh độ bo góc ở đây
                     ),
-                    onPressed: _agreedToTerms
-                        ? () {
-                            // Xử lý khi nút "下一步" được nhấn
-                          }
-                        : null,
-                    child: const Text(
-                      '下一步',
-                      style: TextStyle(
-                        color: Colors.white, // Đổi màu chữ ở đây
-                      ),
+                  ),
+                  onPressed: _agreedToTerms
+                      ? () {
+                          // Xử lý khi nút "下一步" được nhấn
+                        }
+                      : null,
+                  child: const Text(
+                    '下一步',
+                    style: TextStyle(
+                      color: Colors.white, // Đổi màu chữ ở đây
                     ),
-                  )),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
