@@ -104,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    '手機號碼 *',
+                    '手機號碼 *', // này là phoneNumber
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
@@ -181,7 +181,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               contentPadding:
                                   EdgeInsets.symmetric(horizontal: 12),
                               border: InputBorder.none,
-                              hintText: '手機號碼',
+                              hintText: '手機號碼', // này là phonePlaceholder
                             ),
                             keyboardType: TextInputType.phone,
                             inputFormatters: [
@@ -208,7 +208,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    '密碼 *',
+                    '密碼 *', // này là pwd
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
@@ -226,7 +226,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           horizontal: 12,
                         ),
                         border: InputBorder.none,
-                        hintText: '密碼8至12位包含英數字(不含大寫)',
+                        hintText: '密碼8至12位包含英數字(不含大寫)', // này là pwdplaceholder
                         hintStyle: const TextStyle(
                           color: Colors.grey,
                         ),
@@ -261,7 +261,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           // Xử lý khi checkbox thay đổi
                         },
                       ),
-                      const Text('記住我'),
+                      const Text('記住我'), // đây là remember
                     ],
                   ),
                   TextButton(
@@ -269,7 +269,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       // Xử lý khi nhấn "Quên mật khẩu"
                     },
                     child: const Text(
-                      '忘記密碼',
+                      '忘記密碼', // đây là forget
                       style: TextStyle(
                         decoration: TextDecoration.underline, // Thêm gạch chân
                         color: Colors.grey, // Đổi màu chữ
@@ -295,7 +295,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   // Xử lý khi nhấn nút "Đăng nhập"
                 },
                 child: const Text(
-                  '登入',
+                  '登入', // đây là login
                   style: TextStyle(
                     fontSize: 18,
                     color: Colors.white,
@@ -308,13 +308,13 @@ class _LoginScreenState extends State<LoginScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('還沒有帳號嗎？'),
+                  const Text('還沒有帳號嗎？'), // đây là noAccount
                   TextButton(
                     onPressed: () {
                       // Xử lý khi nhấn "Đăng ký"
                     },
                     child: const Text(
-                      '註冊',
+                      '註冊', // đây là register
                       style: TextStyle(
                         decoration: TextDecoration.underline, // Thêm gạch chân
                         color: Colors.grey,
@@ -344,7 +344,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const Text('以社群帳號登入'),
+                    const Text('以社群帳號登入'), // đây là accountLogin
                     const SizedBox(width: 8),
                     IconButton(
                       iconSize: 20,

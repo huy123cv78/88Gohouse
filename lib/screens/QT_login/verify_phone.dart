@@ -104,6 +104,8 @@ class _VerifyPhoneScreenState extends State<VerifyPhoneScreen> {
                         onChanged: (value) {
                           if (value.isNotEmpty && index < 3) {
                             FocusScope.of(context).nextFocus();
+                          } else if (value.isEmpty && index > 0) {
+                            FocusScope.of(context).previousFocus();
                           }
                         },
                       ),

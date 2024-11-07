@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/QT_login/login_screen.dart';
+import 'package:flutter_application_1/screens/QT_login/verification_successful.dart';
 import 'package:flutter_application_1/screens/maintenance_screen.dart';
 import 'package:flutter_application_1/screens/QT_login/register.dart';
 import 'package:flutter_application_1/screens/QT_login/emergency_contact.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: Color.fromARGB(255, 255, 255, 255),
       ),
-      home: VerifyPhoneScreen(),
+      home: LoginScreen(),
     );
   }
 }
