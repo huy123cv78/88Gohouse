@@ -1,7 +1,10 @@
 import 'dart:convert';
 
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_application_1/screens/QT_login/login_screen.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -80,18 +83,28 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               const SizedBox(height: 8),
               RichText(
-                text: const TextSpan(
-                  text: '已經有帳號了嗎？',
+                text: TextSpan(
+                  text: 'register.hasAccount'.tr(), // hasAccount
                   style: TextStyle(fontSize: 16, color: Colors.grey),
                   children: <TextSpan>[
                     TextSpan(
-                      text: '登入',
+                      text: 'register.login'.tr(), //login
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.grey,
                         fontWeight: FontWeight.bold, // In đậm
                         decoration: TextDecoration.underline, // Gạch chân
                       ),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          // Điều hướng đến trang LoginScreen
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoginScreen(),
+                            ),
+                          );
+                        },
                     ),
                   ],
                 ),
@@ -102,8 +115,8 @@ class _RegisterPageState extends State<RegisterPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   RichText(
-                    text: const TextSpan(
-                      text: '手機號碼',
+                    text: TextSpan(
+                      text: 'register.phoneNumber'.tr(), //phoneNumber
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.black, // Màu chữ
@@ -185,11 +198,12 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                           child: TextFormField(
                             controller: _phoneController,
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               contentPadding:
                                   EdgeInsets.symmetric(horizontal: 12),
                               border: InputBorder.none,
-                              hintText: '手機號碼',
+                              hintText: 'register.phonePlaceholder'
+                                  .tr(), //phoneNumber
                             ),
                             keyboardType: TextInputType.phone,
                             inputFormatters: [
@@ -215,8 +229,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     CrossAxisAlignment.start, // Thêm thuộc tính này
                 children: [
                   RichText(
-                    text: const TextSpan(
-                      text: '密碼',
+                    text: TextSpan(
+                      text: 'register.pwd'.tr(), //pwd
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.black, // Màu chữ
@@ -235,7 +249,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   TextField(
                     obscureText: _obscurePassword,
                     decoration: InputDecoration(
-                      hintText: '密碼8至12位包含英數字(不含大寫)',
+                      hintText: 'register.pwdplaceholder'.tr(), //pwdplaceholder
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -255,8 +269,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   const SizedBox(height: 20),
                   RichText(
-                    text: const TextSpan(
-                      text: '確認密碼',
+                    text: TextSpan(
+                      text: 'register.confirmPwd'.tr(), //confirmPwd
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.black, // Màu chữ
@@ -275,7 +289,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   TextField(
                     obscureText: _obscureConfirmPassword,
                     decoration: InputDecoration(
-                      hintText: '密碼8至12位包含英數字(不含大寫)',
+                      hintText: 'register.pwdplaceholder'.tr(), //pwdplaceholder
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -317,12 +331,12 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: Text.rich(
                         TextSpan(
                           children: [
-                            const TextSpan(
-                              text: '我已閱讀並了解',
+                            TextSpan(
+                              text: 'register.ready'.tr(), //ready
                               style: TextStyle(fontSize: 14),
                             ),
                             TextSpan(
-                              text: '會員條款與隱私權聲明',
+                              text: 'register.terms'.tr(), //terms
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.grey, // Màu xanh
@@ -330,12 +344,12 @@ class _RegisterPageState extends State<RegisterPage> {
                                     TextDecoration.underline, // Gạch chân
                               ),
                             ),
-                            const TextSpan(
-                              text: '與',
+                            TextSpan(
+                              text: 'register.and'.tr(), //and
                               style: TextStyle(fontSize: 14),
                             ),
                             TextSpan(
-                              text: '免責聲明',
+                              text: 'register.disclaimer'.tr(), //disclaimer
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.grey, // Màu xanh
@@ -343,8 +357,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                     TextDecoration.underline, // Gạch chân
                               ),
                             ),
-                            const TextSpan(
-                              text: '等所載內容以及其意義，茲同意該等條款規定，並願遵守網站現金、嗣後規範的各種規則',
+                            TextSpan(
+                              text: 'register.ready2'.tr(), //ready2
                               style: TextStyle(fontSize: 14),
                             ),
                           ],
@@ -373,8 +387,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           // Xử lý khi nút "下一步" được nhấn
                         }
                       : null,
-                  child: const Text(
-                    '下一步',
+                  child: Text(
+                    'register.next'.tr(), //next
                     style: TextStyle(
                       color: Colors.white, // Đổi màu chữ ở đây
                     ),

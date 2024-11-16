@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/QT_login/login_screen.dart';
 import 'package:flutter_application_1/screens/QT_login/verification_successful.dart';
@@ -8,30 +9,33 @@ import 'package:flutter_application_1/screens/QT_login/verify_phone.dart';
 import 'package:flutter_application_1/screens/home_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-void main() => runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+  runApp(EasyLocalization(
+      supportedLocales: const [
+        Locale('en', 'US'),
+        Locale('vi', 'VI'),
+        Locale('zh', 'ZH'),
+      ],
+      fallbackLocale: const Locale('en', 'US'),
+      path: 'assets/language',
+      child: const MyApp()));
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return MaterialApp(
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        scaffoldBackgroundColor: Color.fromARGB(255, 255, 255, 255),
-      ),
-      localizationsDelegates: [
-        AppLocalizations.delegate, // Add this line
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: [
-        Locale('en', ''), // English
-        Locale('vi', ''), // TiengViet
-        Locale('zh-cn', '') //china
-      ],
-      home: LoginScreen(),
+      title: '88GO HOUSE',
+      home: const LoginScreen(),
     );
   }
 }

@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/screens/QT_login/register.dart';
 
 class ChooseIdentityPage extends StatelessWidget {
   @override
@@ -51,34 +53,40 @@ class ChooseIdentityPage extends StatelessWidget {
                 ),
               ),
               Text(
-                '您的註冊身份',
+                'register.registrationStatus'.tr(), //registrationStatus
                 style: TextStyle(fontSize: 16, color: Colors.grey),
               ),
               SizedBox(height: 24),
               IdentityCard(
                 title: 'Buyer/Tenant',
-                subtitle: '買家/房客',
+                subtitle: 'register.buyer'.tr(), //buyer
                 onPressed: () {
-                  // Hành động khi bấm vào nút "选择" của thẻ Buyer/Tenant
+                  // Điều hướng đến trang ChooseIdentityPage
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => RegisterPage(),
+                    ),
+                  );
                 },
               ),
               IdentityCard(
                 title: 'Owner/Agent',
-                subtitle: '屋主/代理人',
+                subtitle: 'register.owner'.tr(), //owner
                 onPressed: () {
                   // Hành động khi bấm vào nút "选择" của thẻ Owner/Agent
                 },
               ),
               IdentityCard(
                 title: 'Real estate agent',
-                subtitle: '經理人/房屋仲介',
+                subtitle: 'register.estateAgent'.tr(), //estateAgent
                 onPressed: () {
                   // Hành động khi bấm vào nút "选择" của thẻ Real estate agent
                 },
               ),
               IdentityCard(
                 title: 'Real estate agency',
-                subtitle: '仲介公司',
+                subtitle: 'register.estateAgency'.tr(), //estateAgency
                 onPressed: () {
                   // Hành động khi bấm vào nút "选择" của thẻ Real estate agency
                 },
@@ -164,7 +172,7 @@ class IdentityCard extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: Text(
-                    '选择',
+                    'register.choose'.tr(), //choose
                     style: TextStyle(fontSize: 18),
                   ),
                 ),
